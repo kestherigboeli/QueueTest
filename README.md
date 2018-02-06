@@ -1,6 +1,6 @@
 # QueueTest
 
-Firmstep Queue App
+Queue App
 
 I chose to use PHP laravel framework because of its relative ease to start with, easy routing, flexibile MVC, it supports the latest PHP 7, combines the best of many words and finally, it's an industrial standard framework.
 
