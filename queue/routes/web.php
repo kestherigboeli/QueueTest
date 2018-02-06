@@ -16,28 +16,24 @@
 				Route::get('/', function () {
 				$service = Service::all();
 				$customers = Customer::with(['service'])->get();
-
-
+				
 			    return view('welcome', compact('service','customers'));
 			});
 
 			Route::post('/save', function (Request $request) {
 				 $response = array();
 					if ($request->type==0){
-
 						$request->firstname='Anonymous';
 						$request->lastname='Anonymous';
 						$request->title='Anonymous';
-						 $validator = Validator::make($request->all(), [
-			        'title' => '',
-			        'firstname' => '',
-			        'lastname' => '',
-			        'type' => 'required',
-			        'service_id' => 'required',
-			        ]);
-					}
-
-					else if ($request->type==2){
+						$validator = Validator::make($request->all(), [
+							'title' => '',
+							'firstname' => '',
+							'lastname' => '',
+							'type' => 'required',
+							'service_id' => 'required',
+							]);
+					} else if ($request->type==2){
 						 $validator = Validator::make($request->all(), [
 			        //'title' => 'required',
 			        'firstname' => 'required|min:4',
@@ -45,11 +41,9 @@
 			        'type' => 'required',
 			        'service_id' => 'required',
 			        ]);
-				}
-					
-					else {
-
-						 $validator = Validator::make($request->all(), [
+				} else {
+					$validator = Validator::make($request->all(), 
+					[
 			        'title' => 'required',
 			        'firstname' => 'required|min:4',
 			        'lastname' => 'required|min:4',
@@ -58,14 +52,12 @@
 			        ]);
 				}			
 
-					if ($validator->fails()) {
-			           $response = array(
-                'success' => 0 ,
-                'message' => "All fields are required"
-            );
-			        }
-
-			        else {
+				if ($validator->fails()) {
+			        $response = array(
+					'success' => 0 ,
+					'message' => "All fields are required"
+            		);
+			    } else {
 			      $customer = new Customer();
 				  $customer->firstname=$request->firstname;
 				  $customer->title=$request->title;
@@ -74,20 +66,14 @@
 				  $customer->type=$request->type;
 				  $customer->save();
 
-            $response = array(
-                'success' => 1 ,
-                'message' => "Your details have being saved."
+           			 $response = array(
+					'success' => 1 ,
+					'message' => "Your details have being saved."
+					);
+				}
 
-
-
-            );
-
-        }
-
-        return response()->json(compact('response'));
-
-				 
-			    
+        	return response()->json(compact('response'));
+    
 			});
 
 			/*Route::put('{id}/update', function (Request $request, $id) {
